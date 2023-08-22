@@ -61,6 +61,16 @@ class PessoaController {
 
     }
 
+    static async restauraPessoa(req, res) {
+        const { id } = req.params;
+        try {
+            await database.Pessoas.restore( {where: {id: Number(id)}} )
+            return res.status(200).json( {mensagem: `id ${id} restaurado com sucesso`} )
+        } catch (error) {
+            return res.status(500).json(error.message)
+        }
+    }
+
     //http://localhost:3000/pessoas/1/matricula/5
     //http://localhost:3000/pessoas/:estudanteId/matricula/:matriculaId
     static async pegaUmaMatricula(req, res) {
