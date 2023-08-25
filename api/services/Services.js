@@ -5,7 +5,7 @@ class Services {
         this.nomeDoModelo = nomeDoModelo
     }
 
-    async pegaTodosOsRegistros() {
+    async pegaTudo() {
         return database[this.nomeDoModelo].findAll()
     }
 
@@ -17,8 +17,12 @@ class Services {
         return database[this.nomeDoModelo].create(pessoa)
     }
 
-    async atualizaRegistro(dadosAtualizados, id) {
-        return database[this.nomeDoModelo].update(dadosAtualizados, { where: {id: Number(id)} })
+    async atualizaRegistro(dadosAtualizados, id, transacao = {}) {
+        return database[this.nomeDoModelo].update(dadosAtualizados, { where: {id: id} }, transacao)
+    }
+
+    async atualizaRegistros(dadosAtualizados, filter, transacao = {}) {
+        return database[this.nomeDoModelo].update(dadosAtualizados, { where: {...filter} }, transacao)
     }
 
     async deletaRegistro(id){

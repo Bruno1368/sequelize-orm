@@ -1,7 +1,8 @@
 const database = require('../models')
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op;
-
+const { TurmasServices } = require('../services')
+const turmasServices = new TurmasServices();
 
 class TurmaController {
     
@@ -24,8 +25,7 @@ class TurmaController {
         const { id } = req.params //ler o que for passado como parametro da url
 
         try {
-            const umaPessoa = await database.Pessoas.findOne( {where: {id: // colocar dentro da variavel uma pessoa bancodedados,pessoa e econtrar uma ONDE id for igual o id da variavel
-                Number(id)}} );
+            const umaPessoa = await turmasServices.pegaUmRegistro(id)
                 return res.status(200).json(umaPessoa)
         } catch (error) {
                 return res.status(500).json(error.message)
