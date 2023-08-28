@@ -9,11 +9,8 @@ class TurmaController {
     static async pegaTodasAsTurmas(req, res) {
         const { data_inicial, data_final } = req.query
         const where = {};
-        data_inicial || data_final ? where.data_inicio = {} : null
-        data_inicial ? where.data_inicio[Op.gte] = data_inicial : null
-        data_final ? where.data_inicio[Op.lte] = data_final : null
         try {
-            const todasAsPessoas = await database.Turmas.findAll({ where });
+            const todasAsPessoas = await turmasServices.pegaTurmasPorData(data_inicial, data_final, where)
             return res.status(200).json(todasAsPessoas);
         } catch (error) {
             return res.status(500).json(error.message); 
@@ -36,7 +33,7 @@ class TurmaController {
         const novaPessoa = req.body
 
         try {
-            const novaPessoaCriada = await database.Pessoas.create(novaPessoa)
+            const novaPessoaCriada = await turmasServices.criaRegistro()
             return res.status(200).json(novaPessoaCriada)
 
         } catch (error) {
